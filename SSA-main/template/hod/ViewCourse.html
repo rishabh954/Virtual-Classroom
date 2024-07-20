@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+  <div class="container py-3">
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            {% for message in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+            <div class="col-sm-9">
+              <h3 class="pt-4">VIEW STUDENT</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab px-2">
+          <!-- id="table_id" for jquery -->
+          <table id="example"  class="table">
+            <thead>
+              <tr>
+                <th scope="col">Short name</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in course %}
+
+              <tr>
+                <td>{{i.short_name}}</td>
+                <td>{{i.name}}</td>
+                <td>
+                  <a href="{% url 'EditCourse' i.id %}" class="">
+                    <lord-icon
+                      src="https://cdn.lordicon.com/ylvuooxd.json"
+                      trigger="hover"
+                      colors="primary:#e88c30,secondary:#e83a30,tertiary:#66eece,quaternary:#545454"
+                      style="width: 40px; height: 30px"
+                    >
+                    </lord-icon>
+                  </a>
+                </td>
+                <td>
+                  <a href="{% url 'DeleteCourse' i.id %}" class="">
+                    <lord-icon
+                      src="https://cdn.lordicon.com/hjbrplwk.json"
+                      trigger="hover"
+                      state="hover-trash"
+                      colors="primary:#66ee78,secondary:#66d7ee,tertiary:#4030e8,quaternary:#3a3347"
+                      style="width: 40px; height: 30px"
+                    >
+                    </lord-icon>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

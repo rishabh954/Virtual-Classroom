@@ -1,0 +1,161 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+  <div class="container py-3">
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          {% for message in messages %}
+          <div class="alert alert-success text-center" role="alert">
+            {{message}}
+          </div>
+          {% endfor %}
+
+          <div class="row">
+            <div class="col-sm-9">
+              <h3 class="pt-4">EDIT STUDENT</h3>
+            </div>
+          </div>
+
+          <hr />
+
+          <form action="{% url 'UpdateStudent' %}" method="post">
+            {% csrf_token %}
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First name</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="stu_id"
+                  value="{% for i in student %}{{i.admin.id}}{% endfor %}"
+                  hidden
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{% for i in student %}{{i.admin.first_name}}{% endfor %}"
+                  name="s_first_name"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last name</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{% for i in student %}{{i.admin.last_name}}{% endfor %}"
+                  name="s_last_name"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Username</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{% for i in student %}{{i.admin.username}}{% endfor %}"
+                  name="s_username"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="email"
+                  class="form-control"
+                  value="{% for i in student %}{{i.admin.email}}{% endfor %}"
+                  name="s_email"
+                  readonly
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Gender</p>
+              </div>
+              <div class="col-sm-9">
+                <select name="gender" required>
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                  <option value="other">other</option>
+                </select>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Course</p>
+              </div>
+              <div class="col-sm-9">
+                <select name="course_id" required>
+                  {% for i in course %}
+                  <option value="{{i.id}}">{{i.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Session</p>
+              </div>
+              <div class="col-sm-9">
+                <select name="session_id" required>
+                  {% for i in session %}
+                  <option value="{{i.id}}">
+                    {{i.session_start}} to {{i.session_end}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <hr />
+
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Address</p>
+              </div>
+              <div class="col-sm-9">
+                <textarea class="form-control" name="s_address">
+{% for i in student %}{{i.address}}{% endfor %}</textarea
+                >
+              </div>
+            </div>
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <input
+                  type="submit"
+                  class="btn btn-primary"
+                  value="ADD STUDENT"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

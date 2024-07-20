@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+    <div class="container py-3">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        {% for message in messages %}
+                        <div class="alert alert-success text-center" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                        <div class="col-sm-9">
+                            <h3 class="pt-4">LEAVE</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab px-2">
+                    <table id="example" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Staff name</th>
+                                <th scope="col">Leave data</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in staff_leave %}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.staff_id.admin.first_name}}</td>
+                                <td>{{i.s_date}}</td>
+                                <td>{{i.message}}</td>
+
+                                {% if i.status == 0 %}
+                                <td>
+                                    <a href="{% url "Staff_leave_approve" i.id %}" class="btn btn-success">Approve</a>
+                                    <a href="{% url "Staff_leave_disapprove" i.id %}" class="btn btn-danger">Disapprove</a>
+                                </td>
+                                {% elif i.status == 1 %}
+                                <td>
+                                    <button  class="btn btn-success" disabled="disabled">Approve</a>
+                                </td>
+                                {% else %}
+                                <td>
+                                    <button class="btn btn-danger" disabled="disabled">Disapprove</a>
+                                </td>
+
+                                {% endif %} {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+  <div class="container py-3">
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            {% for message in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+            <div class="col-sm-9">
+              <h3 class="pt-4">VIEW RESULT</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab px-2">
+          <!-- id="table_id" for jquery -->
+          <table id="example" class="table">
+            <thead>
+              <tr>
+                <th scope="col">Short Subject name</th>
+                <th scope="col">Full Subject name</th>
+                <th scope="col">Assignment Mark</th>
+                <th scope="col">Exam Mark</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in result %}
+
+              <tr>
+                <td>{{i.subject_id.short_name}}</td>
+                <td>{{i.subject_id.name}}</td>
+                <td>{{i.assignment_mark}}</td>
+                <td>{{i.exam_mark }}</td>
+                
+                 
+
+                <td>
+                  {% if mark >= 40 %}
+                    <span class="badge bg-success">PASS</span>
+                  {% else %}
+                    <span class="badge bg-danger">FAIL</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

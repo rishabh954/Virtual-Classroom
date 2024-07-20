@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+  <div class="container py-3">
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          {% for message in messages %}
+          <div class="alert alert-success text-center" role="alert">
+            {{message}}
+          </div>
+          {% endfor %}
+
+          <div class="row">
+            <div class="col-sm-9">
+              <h3 class="">
+                <lord-icon src="https://cdn.lordicon.com/qwjfapmb.json" trigger="in" delay="1500" state="morph-open"
+                  style="width: 50px; height: 50px; padding-top:15px;">
+                </lord-icon> ADD SUBJECT
+              </h3>
+            </div>
+          </div>
+
+          <hr />
+
+          <form action="{% url 'AddSubject' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Course</p>
+              </div>
+              <div class="col-sm-9">
+                <select name="course_id" required>
+                  {% for i in course %}
+                  <option value="{{i.id}}">{{i.short_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Staff</p>
+              </div>
+              <div class="col-sm-9">
+                <select name="staff_id" required>
+                  {% for i in staff %}
+                  <option value="{{i.id}}">{{i.admin.first_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Short name of Subject</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="sub_short_name" required />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Subject name</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="sub_name" required />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <input type="submit" class="btn btn-primary" value="ADD SUBEJCT" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<section style="background-color: #eee">
+  <div class="container py-3">
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="card-body">
+
+          {% for message in messages %}
+          <div class="alert alert-success text-center" role="alert">{{message}}</div>
+          {% endfor %}
+
+          <div class="row">
+            <div class="col-sm-3">
+              <img src="{{user.profile_pic}}" alt="{% static 'img/about.jpg' %}" class="rounded-circle img-fluid"
+                style="width: 80px; height: 80px" />
+            </div>
+            <div class="col-sm-9">
+              <h3 class="pt-4">
+                Hello, {{user.first_name}} {{user.last_name}}
+              </h3>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Type</p>
+            </div>
+            {% if user.user_type == '1' %}
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">HEAD OF DIRECTOR</p>
+            </div>
+
+            {% elif user.user_type == '2' %}
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">TEACHER</p>
+            </div>
+
+            {% else %}
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">STUDENT</p>
+            </div>
+            {% endif %}
+          </div>
+
+          <hr />
+
+          <form action="{% url 'profile_update' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Profile picture</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="file" class="form-control" name="profile_pic" />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First name</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" value="{{user.first_name}}" name="first_name" />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last name</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" value="{{user.last_name}}" name="last_name" />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">username</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" value="{{user.username}}" name="username" readonly />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" value="{{user.email}}" name="email" readonly />
+              </div>
+            </div>
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Password</p>
+              </div>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" name="password" />
+              </div>
+            </div>
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <input type="submit" class="btn btn-primary" value="update profile" />
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

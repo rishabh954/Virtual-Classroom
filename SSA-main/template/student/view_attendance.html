@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+<section style="background-color: #eee">
+    <div class="container py-3">
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="card-body">
+            {% for message in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+  
+            <div class="row">
+              <div class="col-sm-9">
+                <h3 class="pt-4">View Attendance</h3>
+              </div>
+            </div>
+  
+            {% if action is None %}
+            <form
+              action="?action=show_attendance"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Subject</p>
+                </div>
+                <div class="col-sm-9">
+                  <select name="subject_id" required>
+                    <option>Select Course</option>
+                    {% for i in subjects %}
+                    <option value="{{i.id}}">{{i.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <hr />
+              
+              <div class="row">
+                <div class="col-sm-3">
+                  <button
+                    type="submit"
+                    class="btn btn-primary">Show Attendance
+                  </butten>
+                </div>
+              </div>
+
+            </form>
+            
+          </div>
+        </div>
+      </div>
+
+
+      
+      {% else %}
+
+      <form>
+      {% csrf_token %}
+
+      <hr />
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Subject</p>
+        </div>
+        <div class="col-sm-9">
+          <select name="subject_id" required disabled>
+            
+            <option value="{{i.id}}">{{get_subject}}</option>
+
+          </select>
+        </div>
+      </div>
+      
+      <hr />
+      
+      
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card mb-4">
+            <div class="card-body">
+             <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Subject Name</th>
+                <th scope="col">Session Year</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in attendance_report %}
+
+              <tr>
+                <td>{{i.attendance_date.attendance_date}}</td>
+                <td>{{i.attendance_date.subject_id}}</td>
+                <td>{{i.attendance_date.session_id.session_start}} To {{i.attendance_date.session_id.session_end}}</td> 
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+             </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      </form>
+
+      
+
+      {% endif %}
+    </div>
+  </section>
+  
+
+{% endblock body %}

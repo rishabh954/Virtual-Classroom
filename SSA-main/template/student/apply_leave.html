@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+<section style="background-color: #eee">
+    <div class="container py-3">
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="card-body">
+            {% for message in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+  
+            <div class="row">
+              <div class="col-sm-9">
+                <h3 class="pt-4">Apply For Leave</h3>
+              </div>
+            </div>
+  
+            <hr />
+  
+            <form action="{% url 'student_leave_save' %}" method="post">
+              {% csrf_token %}
+  
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Leave Date</p>
+                </div>
+                <div class="col-sm-9">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="txtdateofreservation"
+                    name="leave_date"
+                    required/>
+                </div>
+                <hr />
+                <div class="col-sm-3">
+                  <p class="mb-0">Leave Purpose</p>
+                </div>
+                  <div class="col-sm-9">
+                    <textarea
+                      type="date"
+                      style="height: 250px;"
+                      class="form-control"
+                      name="leave_purpose"
+                      required>
+                  </textarea>
+                  </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <button
+                    type="submit"
+                    class="btn btn-primary">Apply For Leave
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var today = new Date();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        var year = today.getFullYear();
+        var date = year + '-' + month + '-' + day;
+        $('[id*=txtdateofreservation]').attr('min', date);
+    });
+</script>
+
+  
+
+{% endblock body %}

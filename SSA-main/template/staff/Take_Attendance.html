@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+<section style="background-color: #eee">
+    <div class="container py-3">
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="card-body">
+            {% for message in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+  
+            <div class="row">
+              <div class="col-sm-9">
+                <h3 class="pt-4">Take Attendance</h3>
+              </div>
+            </div>
+  
+            {% if action is None %}
+            <form
+              action="?action=get_student"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Subject</p>
+                </div>
+                <div class="col-sm-9">
+                  <select name="subject_id" required>
+                    <option>Select Course</option>
+                    {% for i in subject %}
+                    <option value="{{i.id}}">{{i.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Session</p>
+                </div>
+                <div class="col-sm-9">
+                  <select name="session_id" required>
+                    <option>Session</option>
+                    {% for i in session %}
+                    <option value="{{i.id}}">
+                      {{i.session_start}} to {{i.session_end}}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <button
+                    type="submit"
+                    class="btn btn-primary">Fetch Student
+                  </butten>
+                </div>
+              </div>
+            </form>
+            {% else %}
+
+            <form action="{% url 'staff_save_attendance' %}" method="post">
+              {% csrf_token %}
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Subject</p>
+                </div>
+                <div class="col-sm-9">
+                  <select name="subject_id" required>
+                    <option value="{{get_subject.id}}">{{get_subject}}</option>
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Staff</p>
+                </div>
+                <div class="col-sm-9">
+                  <select name="session_id" required>
+                    <option value="{{get_session.id}}">{{get_session}}</option>
+                  </select>
+                </div>
+              </div>
+              <hr />
+  
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Attendance Date</p>
+                </div>
+                <div class="col-sm-9">
+                  <input
+                    type="date"
+                    id="txtdateofreservation"
+                    class="form-control"
+                    name="attendance_date"
+                    required
+                  />
+                </div>
+              </div>
+              <hr />
+              {% for i in student %}
+              <div class="row">
+                <div class="form-check">
+                  <input type="checkbox" style="margin-left: 5px;" class="form-check-input" id="exampleCheck1" value="{{i.id}}" name="student_id">
+                  <label class="form-check-label" style="margin-left: 7px;" for="exampleCheck1">{{i.admin.first_name}} {{i.admin.last_name}}</label>
+                </div>
+              </div>
+              {% endfor %}
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Submit"
+                  />
+                </div>
+              </div>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var today = new Date();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        var year = today.getFullYear();
+        var date = year + '-' + month + '-' + day;
+        $('[id*=txtdateofreservation]').attr('min', date);
+    });
+</script>
+  
+
+{% endblock body %}
